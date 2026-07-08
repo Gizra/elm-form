@@ -1,14 +1,39 @@
 # Elm Form
 
-HTML live forms builders and validation for Elm. [![Build Status](https://travis-ci.org/etaque/elm-form.svg?branch=master)](https://travis-ci.org/etaque/elm-form)
+HTML live forms builders and validation for Elm.
 
-    elm package install etaque/elm-form
+    elm install Gizra/elm-form
 
 For when the classical "a message per field" doesn't work well for you, at the price of loosing some typesafety (field names are made of strings, see [#97](https://github.com/etaque/elm-form/issues/97)).
 
+## About this fork
+
+This is a fork of [`etaque/elm-form`](https://github.com/etaque/elm-form) `4.0.0`,
+whose repository has been archived since 2021. The exposed modules (`Form`,
+`Form.Error`, `Form.Validate`, `Form.Field`, `Form.Input`, `Form.Init`) are
+**unchanged, byte for byte** — this fork exists solely to fix a packaging issue.
+
+Upstream declared `elm-explorations/test` as a *runtime* dependency, constrained
+to `1.0.0 <= v < 2.0.0`, because it shipped the `Form.Test` helper modules as
+part of its public API. That constraint makes it impossible for any consuming
+application to use `elm-explorations/test` 2.x — and therefore impossible to use
+`elm-test` 0.19.1-revision7 or later, including the `elm-test` releases required
+by the Elm 0.19.2 compiler.
+
+This fork moves the `Form.Test` helpers out of `src/` and into `tests/`, so they
+remain available to this package's own test suite but are no longer part of the
+published API. `elm-explorations/test` is consequently a test-only dependency,
+and consumers are free to choose their own version of it.
+
+If you depend on `Form.Test` / `Form.Test.ValidationExpectation`, keep using
+`etaque/elm-form` instead.
+
+Original work Copyright (c) 2016, Emilien Taque, released under the BSD-3-Clause
+license, which is retained unchanged in [LICENSE](LICENSE).
+
 ## Support
 
-We have a dedicated channel in [Elm slack](https://elmlang.herokuapp.com/), join us in `#elm-form` for any question, support or issues coordination.
+Upstream had a dedicated channel in [Elm slack](https://elmlang.herokuapp.com/), `#elm-form`.
 
 ## Features
 
@@ -23,9 +48,10 @@ We have a dedicated channel in [Elm slack](https://elmlang.herokuapp.com/), join
 
 ## Basic usage
 
-See the [example validation test suite](https://github.com/etaque/elm-form/blob/master/example/tests/ValidationTests.elm)
-and [test helper function docs](http://package.elm-lang.org/packages/etaque/elm-form/latest/Form-Test)
-for how to test-drive validations.
+See the [example validation test suite](https://github.com/Gizra/elm-form/blob/master/tests/ValidationTests.elm)
+and the `Form.Test` helpers under [`tests/`](https://github.com/Gizra/elm-form/tree/master/tests/Form)
+for how to test-drive validations. (Note: unlike upstream, these helpers are not
+part of the published API — see "About this fork" above.)
 
 ```elm
 module Main exposing (Foo, Model, Msg(..), app, formView, init, update, validate, view)
